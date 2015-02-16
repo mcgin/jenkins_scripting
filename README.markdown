@@ -16,11 +16,11 @@ In different to admin console, build-flow-plugin and  groovy-postbuild give us a
 
 Jenkins fundamental objects are
 
-* Job aka Project (these terms are used interchangeably)  : Project specifies how a thing will be built, from what and under which condition. A project has triggers, builders, publishers
-* Build : Build is created when we build a Project usually when source code is changed. A build has a Cause, Action, Result, Log, Artifacts. 
-* Jenkins aka Hudson : It exists in form of  singleton and represents entire Jenkins System. From the Jenkins instance we can navigate to projects, views, Queue,  
-* FilePath: represents path to a file in distributed environment i.e. on remote machine
-* Action: a build is a composite of actions (aka non core information elements) that are displayed on UI canvas (SystemInfoLink) and/or also served as input (e.g. parameter) for the build. See https://wiki.jenkins-ci.org/display/JENKINS/Action+and+its+family+of+subtypes
+* `Job` aka Project (these terms are used interchangeably)  : Project specifies how a thing will be built, from what and under which condition. A project has triggers, builders, publishers
+* `Build` : Build is created when we build a Project usually when source code is changed. A build has a Cause, Action, Result, Log, Artifacts. 
+* `Jenkins` aka `Hudson` : It exists in form of  singleton and represents entire Jenkins System. From the Jenkins instance we can navigate to projects, views, Queue,  
+* `FilePath`: represents path to a file in distributed environment i.e. on remote machine
+* `Action`: a build is a composite of actions (aka non core information elements) that are displayed on UI canvas (SystemInfoLink) and/or also served as input (e.g. parameter) for the build. See https://wiki.jenkins-ci.org/display/JENKINS/Action+and+its+family+of+subtypes
 
 ## Navigation
 

@@ -33,18 +33,18 @@ Access current build in postbuild groovy DSL
     manager.build
 
 Access root object in build flow DSL
-   
-   import jenkins.model.Jenkins 
-   //on old version
-   //import jenkins.model.Hudson
+    
+     import jenkins.model.Jenkins 
+     //on old version
+     //import jenkins.model.Hudson
 
-   def jenkins = Jenkins.getInstance()
-   //on old version
-   //def jenkins = Hudson.getInstance()
+    def jenkins = Jenkins.getInstance()
+    //on old version
+    //def jenkins = Hudson.getInstance()
 
 Access root object in  postbuild groovy DSL
 
-   manager.hudson 
+    manager.hudson 
   
    
     

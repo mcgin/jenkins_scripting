@@ -1,90 +1,268 @@
-## Git
+## Postbuild
 
-Configure Git SCM
+Configure post build activities
 
-**git**
+**allow_broken_build_claiming**
 
-Description: Configure Git version as SCM
+Description: Allow developer to claim for broken build
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+     postbuild do
+       allow_broken_build_claiming
+     end
+    end
+
+**archive**
+
+Description: Archive artifacts
 
 Multiple: Override
 
 Example
 
     builder.freestyle 'hello_world-master' do
-      git do
-        url 'ssh://builduser@gerrit.acme.com:29418/hello_world'
-        basedir 'hello_world'
-        reference_repo '$HOME/hello_world.git'
-        branches '$GERRIT_BRANCH'
-        refspec '$GERRIT_REFSPEC'
-        choosing_strategy 'gerrit'
-        git_config_name 'foo'
-        git_config_email 'foo@acme.com'
+      postbuild do
+        archive do
+          file 'package/**',
+             'output/**',
+             'dependencies/lib/**'
+          latest_only true
+        end
       end
     end
 
-**jgit**
+**chucknorris**
 
-Description: Configure Git version as SCM using jgit. Credentials must be created with the specified id using groovy script
+Description: Show Chuck Norris Image
 
 Multiple: Override
 
 Example
 
-    builder.freestyle 'hello_world-master' do
-      git do
-        url 'ssh://builduser@gerrit.acme.com:29418/hello_world'
-        basedir 'hello_world'
-        reference_repo '$HOME/hello_world.git'
-        branches '$GERRIT_BRANCH'
-        refspec '$GERRIT_REFSPEC'
-        choosing_strategy 'gerrit'
-        git_config_name 'foo'
-        git_config_email 'foo@acme.com'
-        jgit
-        credentials 'foo'
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        chucknorris
       end
     end
 
-Example of creating credentials
+**game**
 
-    import jenkins.model.*
-    import hudson.plugins.sshslaves.*
-    import com.cloudbees.plugins.credentials.*
-    import com.cloudbees.plugins.credentials.common.*
-    import com.cloudbees.plugins.credentials.domains.*
-    import com.cloudbees.jenkins.plugins.sshcredentials.impl.*
+Description: Enable CI Game
 
-    domain = Domain.global()
-    store = Jenkins.instance.getExtensionList(
-      'com.cloudbees.plugins.credentials.SystemCredentialsProvider'
-    )[0].getStore()
+Multiple: Override
 
-    username = credentialsId = 'foo'
-    passphrase = description = null
+Example
 
-    privateKey = """
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEoQIBAAKCAQEAyTsKNPUc4GkfZjNlLmLpuS+wecpCQOJs7MubPoNGk5F0cK4Q
-    ...
-    -----END RSA PRIVATE KEY-----
-    """
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        game
+      end
+    end
 
-    credentials = new BasicSSHUserPrivateKey(
-      CredentialsScope.GLOBAL,
-      credentialsId,
-      username,
-      new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource(privateKey),
-      passphrase,
-      description
-    )
+**groovy**
 
-    existing = store.getCredentials(domain).find { it.id == credentialsId }
-    if (existing) {
-      println "removing ${credentialsId}"
-      store.removeCredentials(domain, existing)
-    }
+Description: Run groovy script
 
-    println "adding ${credentialsId}"
-    store.addCredentials(domain, credentials)
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        groovy <<EOS
+    def logger = manager.listener.logger
+    logger.println("--- Hello World")
+    EOS
+      end
+    end
+
+**logparser**
+
+Description: Parse console log to highlight errors
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        logparser '/var/lib/jenkins/build_parsing_rules' do
+          fail_on_error
+        end
+      end
+    end
+
+**pubish_pmd**
+
+Description: Publish PMD analysis
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world' do
+      postbuild do
+        publish_pmd do
+          pmd_results 'build/phppmd.txt'
+        end
+      end
+    end
+
+**publish_cloverphp**
+
+Description: Publish clover php analysis
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world' do
+      postbuild do
+        publish_cloverphp do
+          xml_location 'build/coverage_clover.xml'
+          html_report_dir 'build/coverage'
+          healthy_target :method => 70, :statement => 80
+        end
+      end
+    end
+
+**publish_html**
+
+Description: Publish html report
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-servicetest' do
+      postbuild do
+        publish_html 'Test Report' do
+          dir '$BUILD_NUMBER\\Reports'
+          file 'test-report.html'
+          keep_all false
+          allow_missing true
+        end
+      end
+    end
+
+**publish_javadoc**
+
+Description: Publish javadoc
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        publish_javadoc do
+          doc_dir 'build/doc'
+          keep_all
+        end
+       end
+    end
+
+**publish_nunit_report**
+
+Description: Publish NUnit test results.
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        publish_nunit_report 'foo\\bar\\*.xml'
+      end
+    end
+
+**publish_tap**
+
+Description: Publish TAP test result
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        publish_tap 'TestResultsInTapFormat.tap' do
+          verbose true
+          require_plan true
+        end
+      end
+    end
+
+**publish_xunit_report**
+
+Description: Publish XUnit test results
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        publish_xunit_report 'foo\\bar\\*.xml' do
+          failed_threshold :total_failed_tests => 0, :new_failed_tests => 0
+          unstable_threshold :total_skipped_tests => 0, :new_skipped_tests => 0
+        end
+      end
+    end
+
+**send_email**
+
+Description: Send notification via email
+
+Multiple: Override
+
+Example
+
+  builder.freestyle 'hello_world-build' do
+    postbuild do
+      send_email 'test@example.com' do
+        notify_every_unstable_build false
+        send_to_individuals true
+      end
+    end
+  en
+
+**shell**
+
+Description: Run shell command in as a post build action
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        shell 'cd Reports && mv $(ls *.xml) merge.xml'
+      end
+    end
+
+**trigger**
+
+Description: Trigger other job when this build succeeds
+
+Multiple: Override
+
+Example
+
+    builder.freestyle 'hello_world-build' do
+      postbuild do
+        trigger 'foo-build', 'bar-build' do
+          fail_on_missing true
+          current_parameters true
+          file 'env.properties'
+          predefined_parameters 'BUILD_NUM' => '${BUILD_NUMBER}',
+                                'PACKAGE_VERSION' => '${PACKAGE_VERSION}'
+        end
+      end
+    end
+
 

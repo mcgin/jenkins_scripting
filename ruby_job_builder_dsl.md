@@ -1,22 +1,18 @@
-## Overview
+## Ruby Job Builder DSL
 
-The Openstack Job Builder python project use YAML as input for job creation. It is huge step from creating job using XML or even worse UI.
-However YAML has limitation lacking of both composition and abstraction causing repetitive work and maintenance issue . It may well suit for
-creating of dozen of jobs but not hundreds similar jobs. This is driving factor for creation of Ruby Job Builder DSL.
+Wonga has pretty complex continous integration system in which we employ Jenkins to build SOAP components and run different test suites. As we favor infrastructure as code, we want the creation of Jenkins jobs configuration done using code instead of using Web UI.
 
-Ruby Jobs Builder DSL is ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabulary
-for job creation.
+Initially we used the [Openstack Job Builder Python](http://ci.openstack.org/jenkins-job-builder/), which allows us to create a job's configuration in YAML. Maintain jobs configuration in YAML is huge step forward comparing to Web UI, however we soon discovered that YAML has several limitations lacking of both composition and abstraction causing repetitive work and maintenance issues. This is driving factor for the birth of Ruby Job Builder DSL.
 
-Ruby Jobs Builder DSL can
+Ruby Jobs Builder DSL is designed as Ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabularies for job's creation.
 
-* generate Jenkins XML job configuration files
-* deploy jobs directly into Jenkins Server
+Ruby Jobs Builder DSL can generate Jenkins XML job configuration files deploy jobs directly into Jenkins Server.
 
 ## Example
 
-Step 1 - Create a ruby  file e.g. hello-world.rb with the following content
+Step 1 - Create a ruby file e.g. `hello-world.rb` with the following content
 
-    # hello-world.rb
+    $ cat hello-world.rb
     require 'rubyjobbuilderdsl'
     builder = JenkinsJob::Builder.new
     builder.freestyle 'hello-world' do
@@ -24,47 +20,15 @@ Step 1 - Create a ruby  file e.g. hello-world.rb with the following content
     end
     JenkinsJob::Deployer.new(builder).run
 
-
 Step 2 - Run it
 
-    $bundle exec ruby hello-world.rb
-    Usage:
-    hello-world.rb [--xml --output-dir=.|--deploy --config-file=localhost.ini]
-
-Step 3 - Create XML
-
-
-    sh-3.1$ bundle exec ruby hello_world.rb --xml --output-dir=.
-    creating hello-world
-    sh-3.1$ cat hello-world.xml
-    <project>
-      <actions/>
-      <description>&lt;!-- Managed by Jenkins Job Builder --&gt;</description>
-      <keepDependencies>false</keepDependencies>
-      <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-      <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-      <concurrentBuild>false</concurrentBuild>
-      <canRoam>true</canRoam>
-      <properties/>
-      <scm class="hudson.scm.NullSCM"/>
-      <publishers/>
-      <buildWrappers/>
-      <builders>
-        <hudson.tasks.Shell>
-          <command>echo hello world</command>
-        </hudson.tasks.Shell>
-      </builders>
-    </project>
-
-Step 4 - Upload the created job to your Jenkins server
-
-    sh-3.1$ cat localhost.ini
+    $ cat localhost.ini
     [jenkins]
     url=http://localhost:8080/
     user=jenkins-jobs
     password=7bb352e4f3da683c17247f3abf88f47c
 
-    sh-3.1$ bundle exec ruby hello_world.rb --deploy ----config-file=localhost.ini
+    $ bundle exec ruby hello_world.rb --deploy ----config-file=localhost.ini
     deploying hello-world
 
 ## References

@@ -4,7 +4,9 @@ Wonga has pretty complex continous integration system in which we employ Jenkins
 
 Initially we used the [Openstack Job Builder Python](http://ci.openstack.org/jenkins-job-builder/), which allows us to create a job's configuration in YAML. Maintain jobs configuration in YAML is huge step forward comparing to Web UI, however we soon discovered that YAML has several limitations lacking of both composition and abstraction causing repetitive work and maintenance issues. This is driving factor for the birth of Ruby Job Builder DSL.
 
-Ruby Jobs Builder DSL is designed as Ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabularies for job's creation. It can generate Jenkins XML job configuration files deploy jobs directly into Jenkins Server. The library is easy to use and has minimal dependencies. An example below shows how to create and deploy a simple job.
+Ruby Jobs Builder DSL is designed as Ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabularies for job's creation. It generates XML job configuration files and deploy directly into Jenkins Server. The library is easy to use and has minimal dependencies. 
+
+An example below shows how to create and deploy a simple job.
 
 Step 1 - Create a ruby file e.g. `hello-world.rb` with the following content
 

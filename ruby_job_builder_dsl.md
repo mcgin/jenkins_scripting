@@ -6,7 +6,7 @@ Initially we used the [Openstack Job Builder](http://ci.openstack.org/jenkins-jo
 
 Ruby Jobs Builder DSL is designed as Ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabularies for job's creation. It generates XML job configuration files and deploy directly into Jenkins Server. The library is easy to use and has minimal dependencies. 
 
-**Example**
+**Hello World example**
 
 An example below shows how to create and deploy a simple job.
 

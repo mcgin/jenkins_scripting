@@ -33,7 +33,7 @@ Step 2 - Deploy it
 
 Ruby Jobs Builder DSL is extensively used within Wonga. Its DSL supports a handful number of plugins that meet the need of different teams. It is used to create jobs ranging from simplest one to the most complex pipeline involving hundreds of jobs.
 
-**Extensibility**
+**Flexibility**
 
 Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library on top of it to provide template for creation of jobs that are specific to our technology stacks and work workflow. The following example shows how to create a template then subsequently use it for create a job.
 
@@ -51,6 +51,26 @@ Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library 
     builder.say 'moon'
     
     JenkinsJob::Deployer.new(builder).run
+
+Ruby Jobs Builder DSL goes beyond job's creation, it can delete a job, wipe out workspace, trigger a build or even run a given groovy script on Jenkins server. This feature allow us to have a script that not only create jobs but also configure Jenkins as well as perform other administrative activities bringing automation to different level.
+
+    $ cat hello_mars.rb
+    require 'rubyjobbuilderdsl'
+    JenkinsJob::Deployer.new.run do
+      disable_job 'hello_mars'
+      wipeout_workspace 'hello_mars'
+
+      groovysh <<-EOS
+        import hudson.tasks.Mailer
+        desc = Jenkins.instance.getDescriptorByType(Mailer.DescriptorImpl.class)
+        desc.smtpHost = 'mail.wonga.com'
+        desc.defaultSuffix = '@wonga.com'
+        desc.save()
+      EOS
+
+      enable_job 'hello_mars'
+      trigger_job 'hello_mars'
+    end
 
 
 **References**

@@ -52,7 +52,7 @@ Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library 
     
     JenkinsJob::Deployer.new(builder).run
 
-Ruby Jobs Builder DSL goes beyond job's creation, it can delete a job, wipe out workspace, trigger a build or even run a given groovy script on Jenkins server. This feature allow us to have a script that not only create jobs but also configure Jenkins as well as perform other administrative activities bringing automation to different level.
+Ruby Jobs Builder DSL goes beyond job's creation, it can delete a job, wipe out workspace, trigger a build or even run a given groovy script on Jenkins server. This allows us to have a script that not only create jobs but also configure Jenkins as well as perform other administrative activities bringing automation to different level.
 
     $ cat hello_mars.rb
     require 'rubyjobbuilderdsl'

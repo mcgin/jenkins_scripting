@@ -41,7 +41,7 @@ Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library 
     require 'rubyjobbuilderdsl'
     builder = JenkinsJob::Builder.new do
       def say(what)
-        builder.freestyle "say-#{what}" do
+        freestyle "say-#{what}" do
           shell "echo #{what}"
         end
       end

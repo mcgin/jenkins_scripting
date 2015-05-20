@@ -6,7 +6,7 @@ Initially we used the [Openstack Job Builder](http://ci.openstack.org/jenkins-jo
 
 Ruby Jobs Builder DSL is designed as Ruby internal DSL, so it offers full fledged programming experience at the same time concise, focused vocabularies for job's creation. It generates XML job configuration files and deploy directly into Jenkins Server. The library is easy to use and has minimal dependencies. 
 
-**Hello World example**
+**Hello World Job**
 
 An example below shows how to create and deploy a simple job.
 
@@ -33,7 +33,7 @@ Step 2 - Deploy it
 
 Ruby Jobs Builder DSL is extensively used within Wonga. Its DSL supports a handful number of plugins that meet the need of different teams. It is used to create jobs ranging from simplest one to the most complex pipeline involving hundreds of jobs.
 
-**Flexibility**
+**Extensibility**
 
 Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library on top of it to provide template for creation of jobs that are specific to our technology stacks and work workflow. The following example shows how to create a template then subsequently use it for create a job.
 

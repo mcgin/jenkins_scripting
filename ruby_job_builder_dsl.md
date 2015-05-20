@@ -26,10 +26,10 @@ Step 2 - Deploy it
     user=jenkins-jobs
     password=7bb352e4f3da683c17247f3abf88f47c
 
-    $ bundle exec ruby hello_world.rb --deploy --config-file=localhost.ini
+    $ ruby hello_world.rb --deploy --config-file=localhost.ini
     deploying hello-world
 
-Ruby Jobs Builder DSL is extensively used within Wonga. We support a handful number of plugins in DSL to meet needs of different teams, which use it to create jobs ranging from simplest one to the most complex pipeline having hundreds of jobs.
+Ruby Jobs Builder DSL is extensively used within Wonga. Its DSL supports a handful number of plugins that meet the need of different teams. It is used to create jobs ranging from simplest one to the most complex pipeline involving hundreds of jobs.
 
 ## References
 

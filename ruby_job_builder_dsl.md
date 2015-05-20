@@ -35,7 +35,23 @@ Ruby Jobs Builder DSL is extensively used within Wonga. Its DSL supports a handf
 
 **Flexibility**
 
-Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library on top of it to provide template for creation of jobs that are specific to our technology stacks and work workflow.
+Ruby Jobs Builder DSL quite easy to extends, in Wonga we build an other library on top of it to provide template for creation of jobs that are specific to our technology stacks and work workflow. The following example shows how to create a template then subsequently use it for create a job.
+
+    $ cat hello_moon.rb
+    require 'rubyjobbuilderdsl'
+    builder = JenkinsJob::Builder.new do
+      def say(what)
+        builder.freestyle "say-#{what}" do
+          shell "echo #{what}"
+        end
+      end
+    end
+
+    builder.say 'world'
+    builder.say 'moon'
+    
+    JenkinsJob::Deployer.new(builder).run
+
 
 **References**
 
